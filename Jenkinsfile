@@ -1,7 +1,7 @@
 pipeline {
 environment { // Declaration of environment variables
 DOCKER_ID = "jeffka" // replace this with your docker-id
-DOCKER_IMAGE = "jenkins-datascientest"
+DOCKER_IMAGE = "Jenkins-datascientest"
 DOCKER_TAG = "v.${BUILD_ID}.0" // we will tag our images with the current build in order to increment the value by 1 with each new build
 }
 agent any // Jenkins will be able to select all available agents
@@ -126,5 +126,15 @@ stage('Deploiement en staging'){
 
         }
 
+}
+post {
+    // ..
+    failure {
+        echo "This will run if the job failed"
+        mail to: "jeffrey.moth@gmail.com",
+             subject: "${env.JOB_NAME} - Build # ${env.BUILD_ID} has failed",
+             body: "For more info on the pipeline failure, check out the console output at ${env.BUILD_URL}"
+    }
+    // ..
 }
 }
